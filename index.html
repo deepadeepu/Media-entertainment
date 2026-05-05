@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StreamVault — Product Requirements Document | WarnStream Media</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --navy: #0B1426;
+    --navy-mid: #162040;
+    --navy-light: #1E2E55;
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --gold-pale: #FDF3DC;
+    --red: #C0392B;
+    --teal: #1A7A6E;
+    --teal-light: #E6F5F3;
+    --white: #FFFFFF;
+    --off-white: #F8F6F1;
+    --gray-100: #F0EDE8;
+    --gray-200: #DDD9D0;
+    --gray-400: #A09B90;
+    --gray-600: #6B6560;
+    --text-primary: #1A1612;
+    --text-secondary: #4A4540;
+    --accent-blue: #2563EB;
+    --accent-blue-light: #EFF6FF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--off-white);
+    color: var(--text-primary);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ── COVER PAGE ── */
+  .cover {
+    background: var(--navy);
+    color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  .cover-bg-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 70% 20%, rgba(201,168,76,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 80% at 10% 80%, rgba(26,122,110,0.1) 0%, transparent 50%);
+  }
+
+  .cover-stripe {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 50%, var(--teal) 100%);
+  }
+
+  .cover-content {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 70px 80px;
+  }
+
+  .company-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: auto;
+  }
+
+  .company-logo {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--navy);
+    letter-spacing: -1px;
+  }
+
+  .company-name {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .cover-main {
+    margin: 60px 0 40px;
+  }
+
+  .cover-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 74px;
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -2px;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .cover-title span {
+    color: var(--gold);
+  }
+
+  .cover-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    margin-top: 16px;
+    letter-spacing: 0.3px;
+  }
+
+  .cover-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 60px;
+  }
+
+  .cover-meta-item {
+    padding: 22px 24px;
+    background: rgba(255,255,255,0.03);
+  }
+
+  .cover-meta-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 6px;
+  }
+
+  .cover-meta-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--white);
+  }
+
+  .cover-meta-value.gold { color: var(--gold); }
+
+  .cover-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin-top: 30px;
+  }
+
+  .cover-footer-text {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .confidential-badge {
+    background: rgba(192,57,43,0.2);
+    border: 1px solid rgba(192,57,43,0.4);
+    color: #F1948A;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+  }
+
+  /* ── MAIN DOCUMENT BODY ── */
+  .document {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--white);
+    box-shadow: 0 0 60px rgba(0,0,0,0.08);
+  }
+
+  /* ── SECTION WRAPPER ── */
+  .section {
+    padding: 56px 72px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .section:last-child { border-bottom: none; }
+
+  /* ── SECTION HEADERS ── */
+  .section-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 28px;
+  }
+
+  .section-intro {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    max-width: 680px;
+  }
+
+  /* ── EXECUTIVE SUMMARY ── */
+  .exec-summary-header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 40px 72px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .exec-summary-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--teal) 100%);
+  }
+
+  .exec-kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 32px;
+  }
+
+  .kpi-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .kpi-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ── CONTENT ELEMENTS ── */
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 32px 0 14px;
+  }
+
+  h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin: 24px 0 10px;
+  }
+
+  p {
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+    line-height: 1.75;
+  }
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .callout::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+  }
+
+  .callout-insight {
+    background: var(--gold-pale);
+    border: 1px solid rgba(201,168,76,0.25);
+  }
+  .callout-insight::before { background: var(--gold); }
+
+  .callout-warning {
+    background: #FEF9EC;
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+
+  .callout-teal {
+    background: var(--teal-light);
+    border: 1px solid rgba(26,122,110,0.2);
+  }
+  .callout-teal::before { background: var(--teal); }
+
+  .callout-blue {
+    background: var(--accent-blue-light);
+    border: 1px solid rgba(37,99,235,0.2);
+  }
+  .callout-blue::before { background: var(--accent-blue); }
+
+  .callout-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray-600);
+    margin-bottom: 8px;
+  }
+
+  .callout p { margin-bottom: 0; font-size: 14px; }
+
+  /* ── TABLES ── */
+  .doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 13.5px;
+  }
+
+  .doc-table th {
+    background: var(--navy);
+    color: var(--white);
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .doc-table th:first-child { border-radius: 8px 0 0 0; }
+  .doc-table th:last-child { border-radius: 0 8px 0 0; }
+
+  .doc-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--gray-100);
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+
+  .doc-table tr:last-child td { border-bottom: none; }
+  .doc-table tr:nth-child(even) td { background: var(--off-white); }
+
+  .doc-table td strong {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  /* ── TAGS & BADGES ── */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .badge-gold { background: #FEF3C7; color: #92400E; }
+  .badge-teal { background: var(--teal-light); color: #0D4D45; }
+  .badge-red { background: #FEE2E2; color: #991B1B; }
+  .badge-blue { background: var(--accent-blue-light); color: #1E40AF; }
+  .badge-gray { background: var(--gray-100); color: var(--gray-600); }
+  .badge-navy { background: var(--navy); color: var(--white); }
+
+  /* ── USER STORIES ── */
+  .user-story {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    position: relative;
+  }
+
+  .user-story-id {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .user-story-text {
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: 500;
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+
+  .acceptance-criteria {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--gray-100);
+  }
+
+  .ac-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    margin-bottom: 8px;
+  }
+
+  .ac-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+
+  .ac-check {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--teal-light);
+    border: 1.5px solid var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .ac-check::after {
+    content: '✓';
+    font-size: 9px;
+    color: var(--teal);
+    font-weight: 700;
+  }
+
+  .story-priority {
+    position: absolute;
+    top: 20px; right: 24px;
+  }
+
+  /* ── ROADMAP TIMELINE ── */
+  .roadmap-container {
+    position: relative;
+    margin: 24px 0;
+  }
+
+  .roadmap-phase {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 8px;
+    align-items: stretch;
+  }
+
+  .roadmap-phase-label {
+    width: 80px;
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gray-600);
+    padding-top: 14px;
+    text-align: right;
+  }
+
+  .roadmap-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .roadmap-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: var(--white);
+    flex-shrink: 0;
+    margin-top: 15px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .roadmap-line {
+    width: 2px;
+    flex: 1;
+    background: var(--gray-200);
+    margin: 4px 0;
+  }
+
+  .roadmap-card {
+    flex: 1;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 8px;
+  }
+
+  .roadmap-phase-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .roadmap-phase-dates {
+    font-size: 12px;
+    color: var(--gray-400);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 10px;
+  }
+
+  .roadmap-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .roadmap-item {
+    background: var(--off-white);
+    border: 1px solid var(--gray-200);
+    border-radius: 4px;
+    padding: 3px 10px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  /* ── STAKEHOLDER RACI ── */
+  .raci-cell {
+    text-align: center;
+  }
+
+  .raci-r { background: #DBEAFE; color: #1E40AF; border-radius: 4px; padding: 2px 8px; font-size: 12px; font-weight: 700; display: inline-block; }
+  .raci-a { background: #FCE7F3; color: #9D174D; border-radius: 4px; padding: 2px 8px; font-size: 12px; font-weight: 700; display: inline-block; }
+  .raci-c { background: #D1FAE5; color: #065F46; border-radius: 4px; padding: 2px 8px; font-size: 12px; font-weight: 700; display: inline-block; }
+  .raci-i { background: #FEF3C7; color: #92400E; border-radius: 4px; padding: 2px 8px; font-size: 12px; font-weight: 700; display: inline-block; }
+  .raci-dash { color: var(--gray-200); font-size: 14px; }
+
+  /* ── RISK MATRIX ── */
+  .risk-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+    gap: 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .risk-row:last-child { border-bottom: none; }
+
+  .risk-cell {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+  }
+
+  .risk-header {
+    background: var(--navy);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+  }
+
+  .risk-level-high { background: #FEE2E2; color: #991B1B; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
+  .risk-level-med { background: #FEF3C7; color: #92400E; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
+  .risk-level-low { background: #D1FAE5; color: #065F46; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
+
+  /* ── PERSONA CARDS ── */
+  .persona-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 24px 0;
+  }
+
+  .persona-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .persona-header {
+    background: var(--navy);
+    padding: 20px;
+    text-align: center;
+    color: var(--white);
+  }
+
+  .persona-avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .persona-name {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .persona-role {
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 2px;
+  }
+
+  .persona-body {
+    padding: 16px 20px;
+  }
+
+  .persona-stat {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--gray-100);
+    color: var(--text-secondary);
+  }
+
+  .persona-stat strong { color: var(--text-primary); font-weight: 500; }
+  .persona-stat:last-child { border-bottom: none; }
+
+  /* ── SUCCESS METRICS ── */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .metric-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 20px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .metric-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 0 0 10px 10px;
+  }
+
+  .metric-card.gold-accent::after { background: var(--gold); }
+  .metric-card.teal-accent::after { background: var(--teal); }
+  .metric-card.blue-accent::after { background: var(--accent-blue); }
+  .metric-card.red-accent::after { background: var(--red); }
+
+  .metric-category {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    margin-bottom: 6px;
+  }
+
+  .metric-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 14px;
+  }
+
+  .metric-targets {
+    display: flex;
+    gap: 16px;
+  }
+
+  .metric-target {
+    text-align: center;
+  }
+
+  .metric-target-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    display: block;
+  }
+
+  .metric-target-label {
+    font-size: 10px;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .metric-divider {
+    width: 1px;
+    background: var(--gray-100);
+    align-self: stretch;
+  }
+
+  /* ── AUTHOR BLOCK ── */
+  .author-block {
+    background: var(--off-white);
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-top: 40px;
+  }
+
+  .author-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .author-avatar {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .author-info { flex: 1; }
+
+  .author-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .author-title {
+    font-size: 13px;
+    color: var(--gray-400);
+    margin-top: 2px;
+  }
+
+  .author-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--gray-200);
+  }
+
+  .author-detail-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    margin-bottom: 4px;
+  }
+
+  .author-detail-value {
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  /* ── DIVIDER ── */
+  .rule {
+    border: none;
+    border-top: 1px solid var(--gray-200);
+    margin: 32px 0;
+  }
+
+  /* ── PAGE FOOTER ── */
+  .doc-footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.45);
+    padding: 24px 72px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .doc-footer span { color: var(--gold); }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; }
+    .document { box-shadow: none; }
+    .cover { page-break-after: always; min-height: 100vh; }
+    .section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ COVER PAGE ═══════════════════════════ -->
+<div class="document">
+<div class="cover">
+  <div class="cover-bg-pattern"></div>
+  <div class="cover-stripe"></div>
+  <div class="cover-content">
+    <div class="company-header">
+      <div class="company-logo">WS</div>
+      <div class="company-name">WarnStream Media Group · Product Division</div>
+    </div>
+
+    <div class="cover-main">
+      <div class="cover-eyebrow">Product Requirements Document · Version 2.4</div>
+      <div class="cover-title">Stream<span>Vault</span></div>
+      <div class="cover-subtitle">Unified Content Discovery & Personalization Platform</div>
+    </div>
+
+    <div class="cover-meta-grid">
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Document Owner</div>
+        <div class="cover-meta-value">Jordan Avery</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Role</div>
+        <div class="cover-meta-value">Senior Product Owner</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Initiative Code</div>
+        <div class="cover-meta-value gold">PRJ-SV-2025</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Status</div>
+        <div class="cover-meta-value gold">In Development</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Created</div>
+        <div class="cover-meta-value">January 15, 2025</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Last Updated</div>
+        <div class="cover-meta-value">May 5, 2026</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Target Launch</div>
+        <div class="cover-meta-value gold">Q3 2026</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Product Pillar</div>
+        <div class="cover-meta-value">Streaming · Engagement</div>
+      </div>
+    </div>
+
+    <div class="cover-footer">
+      <div class="cover-footer-text">WarnStream Media Group · Internal Use Only</div>
+      <div class="confidential-badge">Confidential</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ EXEC SUMMARY ═══════════════════════════ -->
+<div class="exec-summary-header">
+  <div class="section-number" style="color: rgba(201,168,76,0.7);">00 · Executive Summary</div>
+  <div style="font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: white; margin: 8px 0 12px;">Solving the Discovery Problem at Scale</div>
+  <p style="color: rgba(255,255,255,0.6); font-size: 15px; max-width: 640px; line-height: 1.7; margin: 0;">
+    WarnStream Media's 47M subscribers are churning at 18% annually, citing "can't find anything to watch" as the #1 exit reason. StreamVault introduces a real-time, AI-driven content discovery layer across all WarnStream properties — WS+ Movies, WS Kids, WS Sports, and WS News — replacing four fragmented search experiences with one intelligent platform.
+  </p>
+  <div class="exec-kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-value">$340M</div>
+      <div class="kpi-label">Projected Annual Revenue Lift</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">-6pp</div>
+      <div class="kpi-label">Target Churn Reduction</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">47M</div>
+      <div class="kpi-label">Subscribers Impacted</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">18mo</div>
+      <div class="kpi-label">Go-Live Timeline</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ 01 — PROBLEM STATEMENT ═══════════════════════════ -->
+<div class="section">
+  <div class="section-number">01 · Problem Statement</div>
+  <div class="section-title">Why Now — The Discovery Crisis</div>
+  <p class="section-intro">Our subscribers are overwhelmed by volume and underwhelmed by relevance. Four separate content verticals each run their own recommendation stack — resulting in disconnected experiences, duplicated engineering cost, and a perception of chaos.</p>
+
+  <div class="callout callout-insight">
+    <div class="callout-title">Research Insight</div>
+    <p>Subscriber exit surveys (n=12,400, Q4 2024) show <strong>64% of churned users</strong> cited "content I wanted felt impossible to find" as a primary or secondary reason for cancellation — above price sensitivity (52%) and content quality (41%).</p>
+  </div>
+
+  <h3>Current State Pain Points</h3>
+
+  <table class="doc-table">
+    <thead>
+      <tr>
+        <th>Pain Point</th>
+        <th>Affected Segment</th>
+        <th>Severity</th>
+        <th>Evidence</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Fragmented search across 4 apps</strong></td>
+        <td>All subscribers</td>
+        <td><span class="badge badge-red">Critical</span></td>
+        <td>Avg. 4.2 taps before content selection</td>
+      </tr>
+      <tr>
+        <td><strong>No cross-vertical recommendations</strong></td>
+        <td>WS+ / WS Sports overlap</td>
+        <td><span class="badge badge-red">Critical</span></td>
+        <td>$0 cross-sell revenue captured</td>
+      </tr>
+      <tr>
+        <td><strong>Stale personalization models</strong></td>
+        <td>WS Movies, WS Kids</td>
+        <td><span class="badge badge-gold">High</span></td>
+        <td>Models retrained weekly; cold-start lasts 72h</td>
+      </tr>
+      <tr>
+        <td><strong>No mood/context-aware surfacing</strong></td>
+        <td>All subscribers</td>
+        <td><span class="badge badge-gold">High</span></td>
+        <td>CTR on homepage rails: 2.1% (industry avg 6.8%)</td>
+      </tr>
+      <tr>
+        <td><strong>Missing watchlist sync</strong></td>
+        <td>Multi-app users (31%)</td>
+        <td><span class="badge badge-teal">Medium</span></td>
+        <td>NPS drag of -7 points among dual-app users</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Business Opportunity</h3>
+  <p>Each percentage point of churn reduction retains approximately 470,000 subscribers at an average annual value of $144. A 6-point reduction — achievable based on Netflix's 2018 discovery overhaul benchmarks — represents $407M in prevented annual revenue loss. The total addressable opportunity, including upsell to Sports tier, exceeds $500M over three years.</p>
+</div>
+
+<!-- ═══════════════════════════ 02 — USER PERSONAS ═══════════════════════════ -->
+<div class="section">
+  <div class="section-number">02 · Target Users & Personas</div>
+  <div class="section-title">Who We're Building For</div>
+  <p class="section-intro">Research distilled 8 qualitative interview clusters and 3.2M behavioral data points into three primary personas representing 84% of our subscriber base by watch-time.</p>
+
+  <div class="persona-grid">
+    <div class="persona-card">
+      <div class="persona-header">
+        <div class="persona-avatar" style="background: rgba(201,168,76,0.2); color: var(--gold);">SB</div>
+        <div class="persona-name">Sarah, "The Busy Binge-er"</div>
+        <div class="persona-role">34 · Marketing Director · Family Plan</div>
+      </div>
+      <div class="persona-body">
+        <div class="persona-stat"><span>Sessions/week</span><strong>5–7</strong></div>
+        <div class="persona-stat"><span>Avg. session</span><strong>52 min</strong></div>
+        <div class="persona-stat"><span>Primary device</span><strong>Smart TV</strong></div>
+        <div class="persona-stat"><span>Pain point</span><strong>Decision fatigue</strong></div>
+        <div class="persona-stat"><span>Goal</span><strong>Fast, trusted picks</strong></div>
+        <div class="persona-stat"><span>Segment</span><span class="badge badge-gold">Power User</span></div>
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-header">
+        <div class="persona-avatar" style="background: rgba(26,122,110,0.25); color: #5DCAA5;">MC</div>
+        <div class="persona-name">Marcus, "The Sports Superfan"</div>
+        <div class="persona-role">28 · Software Engineer · Individual Plan</div>
+      </div>
+      <div class="persona-body">
+        <div class="persona-stat"><span>Sessions/week</span><strong>9–12</strong></div>
+        <div class="persona-stat"><span>Avg. session</span><strong>87 min</strong></div>
+        <div class="persona-stat"><span>Primary device</span><strong>Mobile + TV</strong></div>
+        <div class="persona-stat"><span>Pain point</span><strong>Can't find live + VOD together</strong></div>
+        <div class="persona-stat"><span>Goal</span><strong>One stop for all sports</strong></div>
+        <div class="persona-stat"><span>Segment</span><span class="badge badge-teal">Sports Tier</span></div>
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-header">
+        <div class="persona-avatar" style="background: rgba(37,99,235,0.2); color: #7BB3F5;">EL</div>
+        <div class="persona-name">Elena, "The Casual Dipper"</div>
+        <div class="persona-role">52 · Teacher · Shared Family Plan</div>
+      </div>
+      <div class="persona-body">
+        <div class="persona-stat"><span>Sessions/week</span><strong>2–3</strong></div>
+        <div class="persona-stat"><span>Avg. session</span><strong>28 min</strong></div>
+        <div class="persona-stat"><span>Primary device</span><strong>Tablet</strong></div>
+        <div class="persona-stat"><span>Pain point</span><strong>Overwhelmed by choice</strong></div>
+        <div class="persona-stat"><span>Goal</span><strong>Curated, not algorithmic</strong></div>
+        <div class="persona-stat"><span>Segment</span><span class="badge badge-blue">At-Risk</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-teal">
+    <div class="callout-title">Design Principle</div>
+    <p>StreamVault must serve Elena as confidently as Marcus. We will not optimize solely for power-user engagement metrics — casual users represent 38% of our subscriber base and churn 2.3× more readily than power users.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ 03 — USER STORIES ═══════════════════════════ -->
+<div class="section">
+  <div class="section-number">03 · User Stories & Acceptance Criteria</div>
+  <div class="section-title">Epic: Unified Discovery Engine</div>
+  <p class="section-intro">The following stories represent the MVP scope for the StreamVault discovery layer. All stories have been prioritized using MoSCoW and estimated in Sprint story points by the engineering team.</p>
+
+  <!-- Story 1 -->
+  <div class="user-story">
+    <span class="story-priority"><span class="badge badge-red">Must Have</span></span>
+    <div class="user-story-id">US-001 · 8 pts · Sprint 1–2</div>
+    <div class="user-story-text">As a subscriber, I want a universal search bar that searches across all WarnStream verticals simultaneously, so that I don't have to switch between four apps to find content.</div>
+    <div class="acceptance-criteria">
+      <div class="ac-label">Acceptance Criteria</div>
+      <div class="ac-item"><div class="ac-check"></div>Search results return within 400ms for 95th percentile of queries</div>
+      <div class="ac-item"><div class="ac-check"></div>Results are grouped by vertical (Movies, Sports, Kids, News) with clear labels</div>
+      <div class="ac-item"><div class="ac-check"></div>Search supports natural language: "something funny for date night" returns valid results</div>
+      <div class="ac-item"><div class="ac-check"></div>Recent searches persist across devices for authenticated users</div>
+    </div>
+  </div>
+
+  <!-- Story 2 -->
+  <div class="user-story">
+    <span class="story-priority"><span class="badge badge-red">Must Have</span></span>
+    <div class="user-story-id">US-002 · 13 pts · Sprint 2–4</div>
+    <div class="user-story-text">As a subscriber, I want the homepage to automatically surface content relevant to my current context (time of day, device, recently watched), so I spend less time browsing and more time watching.</div>
+    <div class="acceptance-criteria">
+      <div class="ac-label">Acceptance Criteria</div>
+      <div class="ac-item"><div class="ac-check"></div>Homepage rail updates in real-time; no stale cache older than 15 minutes</div>
+      <div class="ac-item"><div class="ac-check"></div>Morning (6–10am) rail prominently features News and short-form content</div>
+      <div class="ac-item"><div class="ac-check"></div>Weekend evenings surface new release movies and live sports above the fold</div>
+      <div class="ac-item"><div class="ac-check"></div>Model explainability: at least one rail label explains why content was surfaced (e.g., "Because you watched The Batman")</div>
+    </div>
+  </div>
+
+  <!-- Story 3 -->
+  <div class="user-story">
+    <span class="story-priority"><span class="badge badge-gold">Should Have</span></span>
+    <div class="user-story-id">US-003 · 8 pts · Sprint 3–4</div>
+    <div class="user-story-text">As a family plan subscriber, I want distinct profiles with per-profile recommendations, so that my children's watch history does not contaminate my personal recommendation feed.</div>
+    <div class="acceptance-criteria">
+      <div class="ac-label">Acceptance Criteria</div>
+      <div class="ac-item"><div class="ac-check"></div>Up to 6 profiles per account; each maintains independent watch history and preferences</div>
+      <div class="ac-item"><div class="ac-check"></div>Kids profiles are locked to age-appropriate content by default</div>
+      <div class="ac-item"><div class="ac-check"></div>Profile switching takes < 2 seconds on all supported devices</div>
+    </div>
+  </div>
+
+  <!-- Story 4 -->
+  <div class="user-story">
+    <span class="story-priority"><span class="badge badge-teal">Could Have</span></span>
+    <div class="user-story-id">US-004 · 5 pts · Sprint 5</div>
+    <div class="user-story-text">As a Sports subscriber, I want a "Live Now" persistent badge on sports content so I can instantly identify what's airing in real time without navigating to the Sports vertical.</div>
+    <div class="acceptance-criteria">
+      <div class="ac-label">Acceptance Criteria</div>
+      <div class="ac-item"><div class="ac-check"></div>Live badge appears on content tiles wherever they surface (search, homepage, watchlist)</div>
+      <div class="ac-item"><div class="ac-check"></div>Badge updates within 60 seconds of a live event status change</div>
+      <div class="ac-item"><div class="ac-check"></div>Clicking a live badge drops user directly into the live stream, not an interstitial</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ 04 — ROADMAP ═══════════════════════════ -->
+<div class="section">
+  <div class="section-number">04 · Product Roadmap</div>
+  <div class="section-title">18-Month Delivery Plan</div>
+  <p class="section-intro">Delivery is structured in three phases, each unlocking incremental subscriber value while building the infrastructure for the next. Phase gates require sign-off from Product, Engineering, and Executive sponsors.</p>
+
+  <div class="roadmap-container">
+    <div class="roadmap-phase">
+      <div class="roadmap-phase-label">Phase 1</div>
+      <div class="roadmap-connector">
+        <div class="roadmap-dot" style="border-color: var(--gold); background: var(--gold);"></div>
+        <div class="roadmap-line"></div>
+      </div>
+      <div class="roadmap-card" style="border-left: 3px solid var(--gold);">
+        <div class="roadmap-phase-title">Foundation: Unified Data Layer</div>
+        <div class="roadmap-phase-dates">Q1–Q2 2026 · Sprints 1–8</div>
+        <div class="roadmap-items">
+          <div class="roadmap-item">Universal search API</div>
+          <div class="roadmap-item">Cross-vertical data pipeline</div>
+          <div class="roadmap-item">Profile architecture</div>
+          <div class="roadmap-item">Real-time event bus</div>
+          <div class="roadmap-item">A/B testing framework</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="roadmap-phase-label">Phase 2</div>
+      <div class="roadmap-connector">
+        <div class="roadmap-dot" style="border-color: var(--teal);"></div>
+        <div class="roadmap-line"></div>
+      </div>
+      <div class="roadmap-card" style="border-left: 3px solid var(--teal);">
+        <div class="roadmap-phase-title">Intelligence: Personalization Engine</div>
+        <div class="roadmap-phase-dates">Q2–Q3 2026 · Sprints 9–14</div>
+        <div class="roadmap-items">
+          <div class="roadmap-item">ML recommendation model v1</div>
+          <div class="roadmap-item">Context-aware rails</div>
+          <div class="roadmap-item">Live content integration</div>
+          <div class="roadmap-item">Explainable AI labels</div>
+          <div class="roadmap-item">Watchlist sync</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="roadmap-phase-label">Phase 3</div>
+      <div class="roadmap-connector">
+        <div class="roadmap-dot" style="border-color: var(--accent-blue);"></div>
+      </div>
+      <div class="roadmap-card" style="border-left: 3px solid var(--accent-blue);">
+        <div class="roadmap-phase-title">Scale: Cross-Sell & Monetization</div>
+        <div class="roadmap-phase-dates">Q3–Q4 2026 · Sprints 15–18</div>
+        <div class="roadmap-items">
+          <div class="roadmap-item">Tier upsell nudges</div>
+          <div class="roadmap-item">Social/group watchparty</div>
+          <div class="roadmap-item">Third-party content integrations</div>
+          <div class="roadmap-item">Conversational search (NLP v2)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-warning">
+    <div class="callout-title">Phase Gate Dependency</div>
+    <p>Phase 2 cannot begin until the cross-vertical data pipeline (Phase 1) passes data integrity validation. Engineering lead estimates a 3-week buffer to accommodate schema alignment between the Sports real-time system and the Movies/Kids Snowflake warehouse.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ 05 — SUCCESS METRICS ═══════════════════════════ -->
+<div class="section">
+  <div class="section-number">05 · Success Metrics & OKRs</div>
+  <div class="section-title">How We Measure Victory</div>
+  <p class="section-intro">Metrics are organized by the HEART framework (Happiness, Engagement, Adoption, Retention, Task success). Baseline values drawn from Q4 2025 data. Targets set for 12 months post-launch.</p>
+
+  <div class="metrics-grid">
+    <div class="metric-card gold-accent">
+      <div class="metric-category">Retention</div>
+      <div class="metric-name">Annual Subscriber Churn Rate</div>
+      <div class="metric-targets">
+        <div class="metric-target">
+          <span class="metric-target-value">18%</span>
+          <span class="metric-target-label">Baseline</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-target">
+          <span class="metric-target-value" style="color: var(--teal);">12%</span>
+          <span class="metric-target-label">Target</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-target">
+          <span class="metric-target-value" style="color: var(--red);">15%</span>
+          <span class="metric-target-label">Minimum</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="metric-card teal-accent">
+      <div class="metric-category">Engagement</div>
+      <div class="metric-name">Homepage Rail Click-Through Rate</div>
+      <div class="metric-targets">
+        <div class="metric-target">
+          <span class="metric-target-value">2.1%</span>
+          <span class="metric-target-label">Baseline</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-target">
+          <span class="metric-target-value" style="color: var(--teal);">6.5%</span>
+          <span class="metric-target-label">Target</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-target">
+          <span class="metric-target-value" style="color: var(--red);">4.0%</span>
+          <span class="metric-target-label">Minimum</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="metric-card blue-accent">
+      <div class="metric-category">Task Success</div>
+      <div class="metric-name">Time to Content Selection</div>
+      <div class="metric-targets">
+        <div class="metric-target">
+          <span class="metric-target-value">4.2<span style="font-size:14px;">min</span></span>
+          <span class="metric-target-label">Baseline</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-target">
+          <span class="metric-target-value" style="color: var(--teal);">1.8<span style="font-size:14px;">min</span></span>
+          <span class="metric-target-label">Target</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-target">
+          <span class="metric-target-value" style="color: var(--red);">2.5<span style="font-size:14px;">min</span></span>
+          <span class="metric-target-label">Minimum</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="metric-card red-accent">
+      <div class="metric-category">Happiness</div>
+      <div class="metric-name">Net Promoter Score — Streaming Experience</div>
+      <div class="metric-targets">
+        <div class="metric-target">
+          <span class="metric-target-value">+31</span>
+          <span class="metric-target-label">Baseline</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-target">
+          <span class="metric-target-value" style="color: var(--teal);">+52</span>
+          <span class="metric-target-label">Target</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-target">
+          <span class="metric-target-value" style="color: var(--red);">+42</span>
+          <span class="metric-target-label">Minimum</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ 06 — STAKEHOLDER RACI ═══════════════════════════ -->
+<div class="section">
+  <div class="section-number">06 · Stakeholder Map & RACI</div>
+  <div class="section-title">Roles & Responsibilities</div>
+  <p class="section-intro">The RACI matrix defines decision-making authority and communication expectations across all key activities. All escalations route to the Executive Sponsor within 48 hours.</p>
+
+  <table class="doc-table">
+    <thead>
+      <tr>
+        <th>Activity</th>
+        <th>Product Owner</th>
+        <th>Eng Lead</th>
+        <th>Data Science</th>
+        <th>UX Design</th>
+        <th>Legal / Privacy</th>
+        <th>Exec Sponsor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Backlog prioritization</strong></td>
+        <td class="raci-cell"><span class="raci-r">R</span></td>
+        <td class="raci-cell"><span class="raci-c">C</span></td>
+        <td class="raci-cell"><span class="raci-i">I</span></td>
+        <td class="raci-cell"><span class="raci-c">C</span></td>
+        <td class="raci-cell raci-dash">—</td>
+        <td class="raci-cell"><span class="raci-a">A</span></td>
+      </tr>
+      <tr>
+        <td><strong>ML model architecture</strong></td>
+        <td class="raci-cell"><span class="raci-i">I</span></td>
+        <td class="raci-cell"><span class="raci-c">C</span></td>
+        <td class="raci-cell"><span class="raci-r">R</span></td>
+        <td class="raci-cell raci-dash">—</td>
+        <td class="raci-cell raci-dash">—</td>
+        <td class="raci-cell"><span class="raci-a">A</span></td>
+      </tr>
+      <tr>
+        <td><strong>UX / Design review</strong></td>
+        <td class="raci-cell"><span class="raci-a">A</span></td>
+        <td class="raci-cell"><span class="raci-i">I</span></td>
+        <td class="raci-cell raci-dash">—</td>
+        <td class="raci-cell"><span class="raci-r">R</span></td>
+        <td class="raci-cell raci-dash">—</td>
+        <td class="raci-cell"><span class="raci-i">I</span></td>
+      </tr>
+      <tr>
+        <td><strong>Privacy impact assessment</strong></td>
+        <td class="raci-cell"><span class="raci-c">C</span></td>
+        <td class="raci-cell"><span class="raci-c">C</span></td>
+        <td class="raci-cell"><span class="raci-c">C</span></td>
+        <td class="raci-cell raci-dash">—</td>
+        <td class="raci-cell"><span class="raci-r">R</span></td>
+        <td class="raci-cell"><span class="raci-a">A</span></td>
+      </tr>
+      <tr>
+        <td><strong>Go/no-go launch decision</strong></td>
+        <td class="raci-cell"><span class="raci-c">C</span></td>
+        <td class="raci-cell"><span class="raci-c">C</span></td>
+        <td class="raci-cell"><span class="raci-i">I</span></td>
+        <td class="raci-cell"><span class="raci-i">I</span></td>
+        <td class="raci-cell"><span class="raci-c">C</span></td>
+        <td class="raci-cell"><span class="raci-a">A / R</span></td>
+      </tr>
+      <tr>
+        <td><strong>Post-launch metric review</strong></td>
+        <td class="raci-cell"><span class="raci-r">R</span></td>
+        <td class="raci-cell"><span class="raci-c">C</span></td>
+        <td class="raci-cell"><span class="raci-c">C</span></td>
+        <td class="raci-cell"><span class="raci-i">I</span></td>
+        <td class="raci-cell raci-dash">—</td>
+        <td class="raci-cell"><span class="raci-a">A</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap;">
+    <div style="font-size: 12px; color: var(--gray-600);"><span class="raci-r">R</span> Responsible &nbsp; <span class="raci-a">A</span> Accountable &nbsp; <span class="raci-c">C</span> Consulted &nbsp; <span class="raci-i">I</span> Informed</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ 07 — RISK REGISTER ═══════════════════════════ -->
+<div class="section">
+  <div class="section-number">07 · Risk Register</div>
+  <div class="section-title">Identified Risks & Mitigations</div>
+  <p class="section-intro">Risks assessed using a 5×5 likelihood × impact matrix. All High-rated risks have assigned DRI (Directly Responsible Individual) and mandatory bi-weekly review cadence.</p>
+
+  <div style="border: 1px solid var(--gray-200); border-radius: 10px; overflow: hidden; margin-top: 16px;">
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 2fr;">
+      <div class="risk-header">Risk</div>
+      <div class="risk-header">Likelihood</div>
+      <div class="risk-header">Impact</div>
+      <div class="risk-header">Level</div>
+      <div class="risk-header">Mitigation</div>
+    </div>
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 2fr; border-top: 1px solid var(--gray-200);">
+      <div class="risk-cell" style="font-weight: 500; color: var(--text-primary);">ML model underperforms cold-start for new subscribers</div>
+      <div class="risk-cell">High (4)</div>
+      <div class="risk-cell">High (4)</div>
+      <div class="risk-cell"><span class="risk-level-high">High</span></div>
+      <div class="risk-cell">Rule-based fallback for first 10 sessions; editorial "New to WS" rail guaranteed above fold</div>
+    </div>
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 2fr; border-top: 1px solid var(--gray-200);">
+      <div class="risk-cell" style="font-weight: 500; color: var(--text-primary);">GDPR / CCPA non-compliance on behavioral data usage</div>
+      <div class="risk-cell">Medium (3)</div>
+      <div class="risk-cell">Critical (5)</div>
+      <div class="risk-cell"><span class="risk-level-high">High</span></div>
+      <div class="risk-cell">Privacy-by-design review gating Phase 2; Legal sign-off required before ML model enters prod</div>
+    </div>
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 2fr; border-top: 1px solid var(--gray-200);">
+      <div class="risk-cell" style="font-weight: 500; color: var(--text-primary);">Legacy Sports real-time API schema breaks data pipeline</div>
+      <div class="risk-cell">Medium (3)</div>
+      <div class="risk-cell">Medium (3)</div>
+      <div class="risk-cell"><span class="risk-level-med">Medium</span></div>
+      <div class="risk-cell">Schema contract tests added to CI/CD; dedicated Sports platform engineer embedded in team</div>
+    </div>
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 2fr; border-top: 1px solid var(--gray-200);">
+      <div class="risk-cell" style="font-weight: 500; color: var(--text-primary);">Subscriber backlash to algorithm-only homepage (no editorial control)</div>
+      <div class="risk-cell">Low (2)</div>
+      <div class="risk-cell">Medium (3)</div>
+      <div class="risk-cell"><span class="risk-level-low">Low</span></div>
+      <div class="risk-cell">Editorial team retains ability to pin up to 3 featured titles per rail; prominence config dashboard planned for Phase 3</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ 08 — AUTHOR & SIGN-OFF ═══════════════════════════ -->
+<div class="section">
+  <div class="section-number">08 · Document Ownership & Approvals</div>
+  <div class="section-title">Prepared By</div>
+
+  <div class="author-block">
+    <div class="author-row">
+      <div class="author-avatar">JA</div>
+      <div class="author-info">
+        <div class="author-name">Jordan Avery</div>
+        <div class="author-title">Senior Product Owner · Streaming & Discovery · WarnStream Media Group</div>
+      </div>
+      <div><span class="badge badge-teal">v2.4 Current</span></div>
+    </div>
+    <div class="author-details">
+      <div>
+        <div class="author-detail-label">Department</div>
+        <div class="author-detail-value">Product — Streaming Experiences</div>
+      </div>
+      <div>
+        <div class="author-detail-label">Reporting To</div>
+        <div class="author-detail-value">SVP Product, Direct-to-Consumer</div>
+      </div>
+      <div>
+        <div class="author-detail-label">Document Cadence</div>
+        <div class="author-detail-value">Bi-weekly review; major rev at each phase gate</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Approvals Log</h3>
+  <table class="doc-table">
+    <thead>
+      <tr>
+        <th>Approver</th>
+        <th>Title</th>
+        <th>Version</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Patricia Wren</strong></td>
+        <td>SVP Product, DTC</td>
+        <td>v2.0</td>
+        <td>Feb 12, 2026</td>
+        <td><span class="badge badge-teal">Approved</span></td>
+      </tr>
+      <tr>
+        <td><strong>Daniel Kim</strong></td>
+        <td>VP Engineering, Platform</td>
+        <td>v2.0</td>
+        <td>Feb 14, 2026</td>
+        <td><span class="badge badge-teal">Approved</span></td>
+      </tr>
+      <tr>
+        <td><strong>Simone Okafor</strong></td>
+        <td>Chief Privacy Officer</td>
+        <td>v2.2</td>
+        <td>Mar 28, 2026</td>
+        <td><span class="badge badge-teal">Approved</span></td>
+      </tr>
+      <tr>
+        <td><strong>James Whitfield</strong></td>
+        <td>Executive Sponsor / CTO</td>
+        <td>v2.4</td>
+        <td>—</td>
+        <td><span class="badge badge-gold">Pending</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-blue" style="margin-top: 32px;">
+    <div class="callout-title">Portfolio Note</div>
+    <p>This document was prepared as a portfolio artifact demonstrating Product Owner and Business Analyst competencies including: stakeholder alignment, user story writing with acceptance criteria, roadmap planning, RACI construction, risk management, and OKR/HEART metric frameworks — within a fictional major media company context.</p>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="doc-footer">
+  <div>WarnStream Media Group · <span>StreamVault PRD</span> · v2.4</div>
+  <div>Confidential — Internal Use Only</div>
+  <div>© 2026 WarnStream Media Group</div>
+</div>
+
+</div><!-- /.document -->
+</body>
+</html>
